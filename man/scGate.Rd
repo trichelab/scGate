@@ -30,7 +30,7 @@ scGate(
 )
 }
 \arguments{
-\item{data}{Seurat object containing a query data set - filtering will be applied to this object}
+\item{data}{object containing query data - filtering will be applied to this}
 
 \item{model}{A single scGate model, or a list of scGate models. See Details for this format}
 
@@ -84,7 +84,9 @@ A new metadata column \code{is.pure} is added to the query Seurat object, indica
     The \code{active.ident} is also set to this variable.
 }
 \description{
-Apply scGate to filter specific cell types in a query dataset
+Apply scGate to filter specific cell types in a query dataset.
+This function dispatches helpers for Seurat or SingleCellExperiment objects. 
+(Whenever possible, the parameters are kept the same for SCE and Seurat.)
 }
 \details{
 Models for scGate are data frames where each line is a signature for a given filtering level.
@@ -121,6 +123,7 @@ model.list <- list("Bcell" = models$human$generic$Bcell,
 seurat_object <- scGate(seurat_object, model=model.list)
 DimPlot(seurat_object, group.by = "scGate_multi")
 }
+
 }
 \seealso{
 \code{\link{load_scGate_model}} \code{\link{get_scGateDB}} \code{\link{plot_tree}}

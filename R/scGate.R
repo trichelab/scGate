@@ -1,8 +1,10 @@
 #' Filter single-cell data by cell type
 #'
-#' Apply scGate to filter specific cell types in a query dataset
+#' Apply scGate to filter specific cell types in a query dataset.
+#' This function dispatches helpers for Seurat or SingleCellExperiment objects. 
+#' (Whenever possible, the parameters are kept the same for SCE and Seurat.)
 #'
-#' @param data Seurat object containing a query data set - filtering will be applied to this object
+#' @param data object containing query data - filtering will be applied to this
 #' @param model A single scGate model, or a list of scGate models. See Details for this format
 #' @param pca.dim Number of dimensions for cluster analysis
 #' @param assay Seurat assay to use
@@ -30,7 +32,7 @@
 #' @param multi.asNA How to label cells that are "Pure" for multiple annotations: "Multi" (FALSE) or NA (TRUE)
 #' @param seed Integer seed for random number generator
 #' @param verbose Verbose output
-
+#'
 #' @return A new metadata column \code{is.pure} is added to the query Seurat object, indicating which cells passed the scGate filter.
 #'     The \code{active.ident} is also set to this variable.
 #' @details Models for scGate are data frames where each line is a signature for a given filtering level.
@@ -41,6 +43,7 @@
 #'     returned as metadata, with a consensus annotation stored in \code{scGate_multi} metadata field. This allows using scGate as a
 #'     multi-class classifier, where only cells that are "Pure" for a single model are assigned a label, cells that are "Pure" for
 #'     more than one gating model are labeled as "Multi", all others cells are annotated as NA.
+#'
 #' @examples
 #' ### Test using a small toy set
 #' data(query.seurat)
@@ -66,18 +69,22 @@
 #' seurat_object <- scGate(seurat_object, model=model.list)
 #' DimPlot(seurat_object, group.by = "scGate_multi")
 #' }
+#'
 #' @seealso \code{\link{load_scGate_model}} \code{\link{get_scGateDB}} \code{\link{plot_tree}}
 #'
 #' @import Seurat
 #' @import ggplot2
+#'
 #' @importFrom dplyr %>% distinct bind_rows
 #' @importFrom UCell AddModuleScore_UCell SmoothKNN
+#'
 #' @import BiocParallel
 #'
 #' @export
 #'
 scGate <- function(data,
                    model,
+                   # everything else is defaults 
                    pos.thr=0.2,
                    neg.thr=0.2,
                    assay=NULL,
@@ -100,7 +107,7 @@ scGate <- function(data,
                    verbose=FALSE) {
   
   set.seed(seed)
-  
+
   if (!is.null(assay)) {
     DefaultAssay(data) <- assay
   }
