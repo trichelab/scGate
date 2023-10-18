@@ -11,8 +11,6 @@
 #'     'negative' cell types (filtered out). The final Pure population is the
 #'     bottom right subset in the tree.
 #'
-#' \@\import ggparty? 
-#'
 #' @examples
 #' library(ggparty)
 #' models <- get_scGateDB()

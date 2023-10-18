@@ -18,8 +18,6 @@ A plot of the model as a decision tree. At each level, green boxes
     indicate the 'positive' (accepted) cell types, red boxed indicate the
     'negative' cell types (filtered out). The final Pure population is the
     bottom right subset in the tree.
-
-\@\import ggparty?
 }
 \description{
 View scGate model as a decision tree (require ggparty package)
